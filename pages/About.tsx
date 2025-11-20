@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import { CheckCircle, ShieldCheck, Award, FileText, Users, MapPin, Phone, Briefcase, Star, Send } from 'lucide-react';
 import { CHARTER_OF_RESPONSIBILITY, COMPANY_INFO } from '../constants';
+import ownerOffice from '../src/assets/owner office.jpg';
 
 const About: React.FC = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
@@ -81,8 +82,8 @@ const About: React.FC = () => {
           <div className="mt-10 lg:mt-0 relative">
             <div className="absolute -inset-4 bg-brand-accent/20 rounded-xl transform rotate-2"></div>
             <img
-              className="relative rounded-lg shadow-2xl w-full h-auto object-cover"
-              src="https://images.unsplash.com/photo-1582139329536-e7284fece509?q=80&w=800&auto=format&fit=crop"
+              className="relative rounded-lg shadow-2xl w-full h-64 md:h-96 object-cover"
+              src={ownerOffice}
               alt="Security Team"
             />
             {/* Overlay box */}
