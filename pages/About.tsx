@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import { CheckCircle, ShieldCheck, Award, FileText, Users, MapPin, Phone, Briefcase, Star, Send } from 'lucide-react';
 import { CHARTER_OF_RESPONSIBILITY, COMPANY_INFO } from '../constants';
-import ownerOffice from '../src/assets/owner office.jpg';
+import ownerOffice from '../src/assets/owner-office.jpg';
 
 const About: React.FC = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
