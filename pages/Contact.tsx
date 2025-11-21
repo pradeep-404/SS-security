@@ -58,7 +58,7 @@ const Contact: React.FC = () => {
         },
         body: JSON.stringify({
           ...formData,
-          recipientEmail: 'your-email@gmail.com' // Replace with your email
+          recipientEmail: COMPANY_INFO.email // send to company email from constants
         })
       });
 
