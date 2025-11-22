@@ -28,7 +28,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % CAROUSEL_IMAGES.length);
-    }, 10000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
