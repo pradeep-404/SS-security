@@ -18,6 +18,24 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      build: {
+        target: 'ES2020',
+        minify: 'terser',
+        terserOptions: {
+          compress: {
+            drop_console: true,
+          },
+        },
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              'react': ['react', 'react-dom', 'react-router-dom'],
+              'animation': ['framer-motion'],
+              'icons': ['lucide-react'],
+            }
+          }
+        }
       }
     };
 });

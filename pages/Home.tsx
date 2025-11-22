@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Users, Car, Trophy, Star, ChevronLeft, ChevronRight, Award, Camera } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -28,7 +28,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % CAROUSEL_IMAGES.length);
-    }, 6000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -50,13 +50,14 @@ const Home: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.6 }}
             className="absolute inset-0"
           >
             <img
               src={CAROUSEL_IMAGES[currentImageIndex].url}
               alt={CAROUSEL_IMAGES[currentImageIndex].title}
-              className="w-full h-full object-cover opacity-50"
+              loading="eager"
+              className="w-full h-full object-cover opacity-50 will-change-transform"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 via-transparent to-brand-900/30"></div>
           </motion.div>
@@ -66,9 +67,9 @@ const Home: React.FC = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
               key={`text-${currentImageIndex}`}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
               <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-7xl drop-shadow-lg">
                 <span className="block">{CAROUSEL_IMAGES[currentImageIndex].title}</span>
@@ -97,13 +98,13 @@ const Home: React.FC = () => {
         {/* Carousel Controls */}
         <button 
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 text-white hover:bg-black/50 transition-colors z-20 hidden md:block"
+          className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white hover:bg-black/60 transition-all duration-200 z-20 hidden md:block will-change-transform"
         >
           <ChevronLeft size={32} />
         </button>
         <button 
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 text-white hover:bg-black/50 transition-colors z-20 hidden md:block"
+          className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white hover:bg-black/60 transition-all duration-200 z-20 hidden md:block will-change-transform"
         >
           <ChevronRight size={32} />
         </button>
@@ -136,14 +137,15 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             
             {/* Achievement 1: Celebrity Protection */}
-            <div className="group relative bg-gray-900 rounded-xl overflow-hidden shadow-xl h-[400px]">
+            <div className="group relative bg-gray-900 rounded-xl overflow-hidden shadow-lg h-[400px] hover:shadow-2xl transition-shadow duration-300">
                {/* REPLACE WITH YOUR IMAGE OF ADITYA ROY KAPUR */}
                <img 
                   src="src/assets/aditya rai kapoor event guards.jpg" 
                   alt="Aditya Roy Kapur Security" 
-                  className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" 
+                  loading="lazy"
+                  className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-300 will-change-transform" 
                />
-               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
+               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/95 to-transparent">
                   <div className="flex items-center gap-2 mb-2">
                      <Star className="text-brand-accent fill-brand-accent" size={20} />
                      <span className="text-brand-accent font-bold text-sm uppercase tracking-wider">VVIP Protection</span>
@@ -154,14 +156,15 @@ const Home: React.FC = () => {
             </div>
 
             {/* Achievement 2: Awards */}
-            <div className="group relative bg-gray-900 rounded-xl overflow-hidden shadow-xl h-[400px]">
+            <div className="group relative bg-gray-900 rounded-xl overflow-hidden shadow-lg h-[400px] hover:shadow-2xl transition-shadow duration-300">
                {/* REPLACE WITH YOUR IMAGE OF AMISHA PATEL AWARD */}
                <img 
                   src="src/assets/award.jpg" 
                   alt="Amisha Patel Award" 
-                  className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" 
+                  loading="lazy"
+                  className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-300 will-change-transform" 
                />
-               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
+               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/95 to-transparent">
                   <div className="flex items-center gap-2 mb-2">
                      <Trophy className="text-brand-accent fill-brand-accent" size={20} />
                      <span className="text-brand-accent font-bold text-sm uppercase tracking-wider">Excellence Award</span>
@@ -172,28 +175,30 @@ const Home: React.FC = () => {
             </div>
 
             {/* Achievement 3: Golf Cart Team */}
-            <div className="group relative bg-gray-900 rounded-xl overflow-hidden shadow-xl h-[300px]">
+            <div className="group relative bg-gray-900 rounded-xl overflow-hidden shadow-lg h-[300px] hover:shadow-2xl transition-shadow duration-300">
                {/* REPLACE WITH YOUR IMAGE OF GOLF CARTS */}
                <img 
                   src="src/assets/place event organizer.jpg" 
                   alt="Golf Cart Patrol" 
-                  className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" 
+                  loading="lazy"
+                  className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-300 will-change-transform" 
                />
-               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
+               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/95 to-transparent">
                   <h3 className="text-xl font-bold text-white">Specialized Patrol Units</h3>
                   <p className="text-gray-300 text-sm">Deployed Golf Cart Patrol teams for large-scale wedding venues and resorts.</p>
                </div>
             </div>
 
             {/* Achievement 4: Bouncer Team */}
-            <div className="group relative bg-gray-900 rounded-xl overflow-hidden shadow-xl h-[300px]">
+            <div className="group relative bg-gray-900 rounded-xl overflow-hidden shadow-lg h-[300px] hover:shadow-2xl transition-shadow duration-300">
                {/* REPLACE WITH YOUR IMAGE OF BOUNCERS */}
                <img 
                   src="src/assets/ss guard.jpg" 
                   alt="Bouncer Team" 
-                  className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" 
+                  loading="lazy"
+                  className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-300 will-change-transform" 
                />
-               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
+               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/95 to-transparent">
                   <h3 className="text-xl font-bold text-white">Elite Bouncer Squad</h3>
                   <p className="text-gray-300 text-sm">Our physically imposing and well-trained bouncer team ready for any crowd control situation.</p>
                </div>
@@ -216,7 +221,7 @@ const Home: React.FC = () => {
           </div>
 
           <div className="mt-12 grid gap-8 grid-cols-1 md:grid-cols-3">
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:-translate-y-1 transition-transform duration-300">
+            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200">
               <div className="text-brand-accent mb-4">
                 <Shield size={40} />
               </div>
@@ -225,7 +230,7 @@ const Home: React.FC = () => {
                 Trained security guards for societies, factories, and offices. Available for 10hr, 12hr, and 24hr shifts.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:-translate-y-1 transition-transform duration-300">
+            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200">
               <div className="text-brand-accent mb-4">
                 <Users size={40} />
               </div>
@@ -234,7 +239,7 @@ const Home: React.FC = () => {
                 Professional bouncers and gunmen for events, parties, and VIP protection. Short-term and long-term contracts available.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:-translate-y-1 transition-transform duration-300">
+            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200">
               <div className="text-brand-accent mb-4">
                 <Car size={40} />
               </div>
